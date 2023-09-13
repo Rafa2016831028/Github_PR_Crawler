@@ -1,5 +1,5 @@
 
-ACCESS_TOKEN = 'paste your personal access token here'
+ACCESS_TOKEN = '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'
 
 def get_access_token():
-    return "paste your personal access token here"
+    return ACCESS_TOKEN

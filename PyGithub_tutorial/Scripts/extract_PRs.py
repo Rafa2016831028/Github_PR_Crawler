@@ -3,8 +3,11 @@ from github import Github, RateLimitExceededException, BadCredentialsException, 
 import pandas as pd
 import requests
 import time
+import os, sys
+sys.path.insert(1, os.getcwd())
+import config
 
-access_token = "paste your personal access token here"
+access_token = config.get_access_token()
 
 def extract_project_PRs(project_full_name):
     df_PRs = pd.DataFrame()
@@ -15,7 +18,8 @@ def extract_project_PRs(project_full_name):
             repo = g.get_repo(project_full_name)
             PRs_list = repo.get_pulls(state='closed', sort='created', base='master')
 
-            for pr in PRs_list:
+            for idx, pr in enumerate(PRs_list):
+                if idx==5: break
                 try:
                     print(g.rate_limiting)
                     print(f'Extracting data from PR # {pr.number}')
@@ -39,6 +43,8 @@ def extract_project_PRs(project_full_name):
                         'pr_url': pr.url,
                         'pr_html_url': pr.html_url,
                         'pr_state': pr.state,
+                        'pr_head': pr.head,
+                        'pr_base:': pr.base,
                         'additions': pr.additions,
                         'deletions': pr.deletions,
                         'pr_changed_files': pr.changed_files,
@@ -116,6 +122,6 @@ def extract_project_PRs(project_full_name):
             time.sleep(10)
             continue
         break
-    df_PRs.to_csv('../Dataset/PRs_dataset_2.csv', sep=',', encoding='utf-8', index=True)
+    df_PRs.to_csv('Dataset\PRs_dataset_2.csv', sep=',', encoding='utf-8', index=True)
 
 extract_project_PRs('apache/any23')
