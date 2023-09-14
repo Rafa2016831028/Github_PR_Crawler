@@ -19,7 +19,7 @@ def extract_project_PRs(project_full_name):
             PRs_list = repo.get_pulls(state='closed', sort='created', base='master')
 
             for idx, pr in enumerate(PRs_list):
-                if idx==5: break
+                if idx==10: break
                 try:
                     print(g.rate_limiting)
                     print(f'Extracting data from PR # {pr.number}')
@@ -43,8 +43,8 @@ def extract_project_PRs(project_full_name):
                         'pr_url': pr.url,
                         'pr_html_url': pr.html_url,
                         'pr_state': pr.state,
-                        'pr_head': pr.head,
-                        'pr_base:': pr.base,
+                        'pr_head': pr.head.ref,
+                        'pr_base:': pr.base.ref,
                         'additions': pr.additions,
                         'deletions': pr.deletions,
                         'pr_changed_files': pr.changed_files,
@@ -124,4 +124,4 @@ def extract_project_PRs(project_full_name):
         break
     df_PRs.to_csv('Dataset\PRs_dataset_2.csv', sep=',', encoding='utf-8', index=True)
 
-extract_project_PRs('apache/any23')
+extract_project_PRs('eclipse/che')
