@@ -1,5 +1,5 @@
 
-ACCESS_TOKEN = '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'
+ACCESS_TOKEN = 'Please enter your access token here'
 
 def get_access_token():
     return ACCESS_TOKEN
